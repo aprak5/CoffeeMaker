@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Add an Ingredient To Recipe</title>
+<style>
+.username.ng-valid {
+	background-color: lightgreen;
+}
+
+.username.ng-dirty.ng-invalid-required {
+	background-color: red;
+}
+
+.username.ng-dirty.ng-invalid-min {
+	background-color: yellow;
+}
+
+.email.ng-valid {
+	background-color: lightgreen;
+}
+
+.email.ng-dirty.ng-invalid-required {
+	background-color: red;
+}
+</style>
+<link rel="stylesheet" href="css/bootstrap.css" />
+<link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+
+	<script>
+		/*<![CDATA[*/
+		var app = angular.module('myApp', []);
+		app.controller('addIngredientCtrl', function($scope, $http, $q) {
+			console.log("Hit!");
+
+			$scope.reset = function() {
+				$scope.success = false;
+				$scope.failure = false;
+			
+				if (undefined != $scope.addRecipeForm) {
+					$scope.addIngredientForm.$setPristine(); // reset Form
+				}
+			}
+
+			$scope.submit = function() {
+				$scope.addIngredient();
+				$scope.reset();
+				
+			}
+
+			$scope.ingredients = [];
+			$scope.name = '';
+			$scope.amount = '';
+			
+			$scope.getIngredients = function() {
+				$http.get("/api/v1/inventory").then(function(response) {
+					for(let i = 0; i < response.data['ingredients'].length; i++) {
+						$scope.ingredients.push(response.data['ingredients'][i]);
+					}
+				}, function(rejection) {
+					console.error("Error while getting recipe ingredients");
+				})
+				
+			}
+			
+			
+			$scope.recipeIngredients = Object.entries(JSON.parse(sessionStorage.getItem("recipeIngredients")));
+	
+			
+			$scope.addIngredient = function() {
+				$scope.ingredient = {
+						name : $scope.name['name'],
+						amount : $scope.amount
+				};
+				
+				if ($scope.amount <= 0) {
+					$scope.failure = true;
+					$scope.success = false;
+					alert("An ingredient must have a positive integer amount.");
+				}
+				console.log($scope.name);
+				$scope.recipeIngredients = $scope.recipeIngredients.concat($scope.ingredient)
+				console.log($scope.recipeIngredients);
+				
+				sessionStorage.setItem("recipeIngredients", JSON.stringify($scope.recipeIngredients));
+			}
+			
+			onChangeNameFunction = function() {
+				$scope.name = document.getElementById("name-select").options[document.getElementById("name-select").options.selectedIndex].label;
+			};
+			
+			onChangeAmtFunction = function() {
+				$scope.amount = document.getElementById("amount-input").value;
+			};
+			
+			
+			$scope.getIngredients();
+			console.log($scope.recipeIngredients);
+			$scope.reset();
+
+		});
+		/*]]>*/
+	</script>
+
+	<div class="generic-container ng-cloak" ng-app="myApp"
+		ng-controller="addIngredientCtrl as ctrl">
+		<div class="panel panel-default">
+			
+			<div class="panel-heading">
+				<span class="lead">Add Ingredient </span>
+			</div>
+
+			<div class="formcontainer">
+				<form ng-submit="submit()" name="addIngredientForm"
+					class="form-horizontal">
+
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label class="col-md-2 control-lable" for="file">Name</label>
+							<div class="col-md-7">
+								<select id="name-select" ng-model="name" name="name" ng-options="ingredient as ingredient.name for ingredient in ingredients"
+								required="true" class="name form-control select-sm" onchange="onChangeNameFunction();">
+									<option value="">Select an ingredient to add</option>
+									<!-- <option ng-repeat="ingredient in ingredients" value="{{ingredient.name}}">{{ingredient.name}}</option>
+								-->
+								</select>
+								<div class="has-error" ng-show="addIngredientForm.$dirty">
+									<span ng-show="addIngredientForm.name.$error.required">This
+										is a required field</span> 
+								</div>
+							</div>
+						</div>
+					</div>
+					
+
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label class="col-md-2 control-lable" for="file">Amount</label>
+							<div class="col-md-7">
+								<input id="amount-input" type="text" ng-model="amount" name="amount"
+									class="amount form-control input-sm"
+									placeholder="Enter amount of ingredient" required="0" onchange="onChangeAmtFunction();"/>
+								<div class="has-error" ng-show="addIngredientForm.$dirty">
+									<span ng-show="addIngredientForm.amount.$error.required">This
+										is a required field</span> <span
+										ng-show="addIngredientForm.amount.$error.min">Minimum
+										amount is 0</span> <span ng-show="addIngredientForm.amount.$invalid">This
+										field is invalid </span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-actions floatRight">
+							<input type="submit" value="Add Ingredient"
+								class="btn btn-primary btn-sm"
+								ng-disabled="addIngredientForm.$invalid" onclick="window.location.href='addrecipe.html'"/>
+							<button type="button" ng-click="reset()"
+								class="btn btn-warning btn-sm"
+								ng-disabled="addIngredientForm.$pristine">Reset Form</button>
+						</div>
+					</div>
+
+				</form>
+			</div>
+
+		</div>
+		</div>
+			<div ng-show="success">Ingredient Successfully Added</div>
+			<div ng-show="failure">Error while adding ingredient.</div>
+		</div>		
+		<a href="index.html">Home</a>
+	</div>
+
+
+</body>
+</html> 
