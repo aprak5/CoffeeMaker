@@ -1,35 +1,44 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Add an Ingredient To Recipe</title>
+<title>Edit Selected Recipe</title>
 </head>
 <body>
 
-
+	
 	<div class="generic-container ng-cloak" ng-app="myApp"
-		ng-controller="addIngredientCtrl as ctrl">
+		ng-controller="editSelectedRecipeCtrl as ctrl">
 		<div class="panel panel-default">
-			
 			<div class="panel-heading">
-				<span class="lead">Add Ingredient </span>
+				<span class="lead">Edit Selected Recipe</span>
 			</div>
 
-			<div class="formcontainer">
-				<form ng-submit="submit()" name="addIngredientForm"
+			Coffee: <span id="recipeCoffee" ng-bind="recipe.coffee"></span><br />
+			Milk: <span id="recipeMilk" ng-bind="recipe.milk"></span><br />
+			Sugar: <span id="recipeSugar" ng-bind="recipe.sugar"></span><br />
+			Chocolate: <span id="recipeChocolate"
+				ng-bind="recipe.chocolate"></span><br />
+			Cinnamon: <span id="recipeCinnamon"
+				ng-bind="recipe.cinnamon"></span><br />
+					
+			<div class="panel-heading">
+				<span class="lead"><a href="addRecipeIngredient.html"> Add Ingredient </a> </span>
+			</div>
+			<div class="panel-heading">
+				<span class="lead"><a href="removeRecipeIngredient.html"> Remove Ingredient </a> </span>
+			</div>
+					
+		<div class="formcontainer">
+			<form ng-submit="submit()" name="editSelectedRecipeForm"
 					class="form-horizontal">
-
+					
 					<div class="row">
 						<div class="form-group col-md-12">
-							<label class="col-md-2 control-lable" for="file">Ingredient</label>
+							<label class="col-md-2 control-lable" for="file">Name</label>
 							<div class="col-md-7">
-								<select name="ingredient" ng-model="ingredient.name"
-									class="name form-control select-sm">
-									<option value="coffee"> Coffee </option>
-									<option value="milk"> Milk </option>
-									<option value="sugar"> Sugar </option>
-									<option value="chocolate"> Chocolate </option>
-									<option value="cinnamon"> Cinnamon </option>
-								</select>	 
+								<input type="text" ng-model="recipe.name" name="name"
+									class="name form-control input-sm"
+									placeholder="Enter name" required="0" />
 								<!--  <div class="has-error" ng-show="addIngredientForm.$dirty">
 									<span ng-show="addIngredientForm.name.$error.required">This
 										is a required field</span> <span
@@ -40,14 +49,14 @@
 							</div>
 						</div>
 					</div>
-
+					
 					<div class="row">
 						<div class="form-group col-md-12">
-							<label class="col-md-2 control-lable" for="file">Amount</label>
+							<label class="col-md-2 control-lable" for="file">Price</label>
 							<div class="col-md-7">
-								<input type="text" ng-model="ingredient.amount" name="amount"
+								<input type="text" ng-model="recipe.price" name="price"
 									class="amount form-control input-sm"
-									placeholder="Enter amount of ingredient" required="0" />
+									placeholder="Enter price of recipe" required="0" />
 								<!--  <div class="has-error" ng-show="addIngredientForm.$dirty">
 									<span ng-show="addIngredientForm.amount.$error.required">This
 										is a required field</span> <span
@@ -61,18 +70,18 @@
 					</div>
 					<div class="row">
 						<div class="form-actions floatRight">
-							<input type="submit" value="Add Ingredient"
+							<input type="submit" value="Submit"
 								class="btn btn-primary btn-sm"
-								ng-disabled="addIngredientForm.$invalid" />
+								ng-disabled="editSelectedRecipeForm.$invalid" />
 							<button type="button" ng-click="reset()"
 								class="btn btn-warning btn-sm"
-								ng-disabled="addIngredientForm.$pristine">Reset Form</button>
+								ng-disabled="editSelectedRecipeForm.$pristine">Reset Form</button>
 						</div>
 					</div>
-
+					
 				</form>
 			</div>
-
+		
 		</div>
 		</div>
 			<!-- <div ng-show="success">Ingredient Successfully Added</div>
@@ -83,4 +92,4 @@
 
 
 </body>
-</html> 
+</html>

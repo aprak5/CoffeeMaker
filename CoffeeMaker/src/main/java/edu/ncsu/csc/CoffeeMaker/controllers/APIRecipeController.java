@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -90,6 +91,81 @@ public class APIRecipeController extends APIController {
             return new ResponseEntity(
                     errorResponse( "Insufficient space in recipe book for recipe " + recipe.getName() ),
                     HttpStatus.INSUFFICIENT_STORAGE );
+        }
+
+    }
+
+    /**
+     * REST API endpoint to provide update access an ingredient in CoffeeMaker.
+     * This will update the Ingredient of the CoffeeMaker by adding fields from
+     * the Ingredient provided to the CoffeeMaker's stored ingredient.
+     *
+     * @param recipe
+     *            name/price/ingredients to modify to a recipe
+     * @return response to the request
+     */
+
+    public static class recObj {
+        private Recipe recipe;
+        private String newName;
+
+        public recObj () {
+        };
+
+        public recObj ( final Recipe recipe, final String newName ) {
+            setRecipe( recipe );
+            setNewName( newName );
+        }
+
+        /**
+         * @return the recipe
+         */
+        public Recipe getRecipe () {
+            return recipe;
+        }
+
+        /**
+         * @param recipe
+         *            the recipe to set
+         */
+        public void setRecipe ( final Recipe recipe ) {
+            this.recipe = recipe;
+        }
+
+        /**
+         * @return the newName
+         */
+        public String getNewName () {
+            return newName;
+        }
+
+        /**
+         * @param newName
+         *            the newName to set
+         */
+        public void setNewName ( final String newName ) {
+            this.newName = newName;
+        }
+    }
+
+    @PutMapping ( BASE_PATH + "/recipes/{name}" )
+    public ResponseEntity editRecipe ( @RequestBody final recObj param ) {
+        final Recipe recipe = param.getRecipe();
+        final String recipeName = param.getNewName();
+        final Recipe ing = service.findByName( recipe.getName() );
+
+        if ( ing == null ) {
+            return new ResponseEntity( HttpStatus.NOT_FOUND );
+        }
+        ing.updateRecipe( recipe );
+        ing.setName( recipeName );
+        try {
+            service.save( ing );
+            return new ResponseEntity( HttpStatus.OK );
+        }
+        catch ( final Exception e ) {
+            System.out.print( ing.toString() );
+            return new ResponseEntity( ing, HttpStatus.BAD_REQUEST );
         }
 
     }

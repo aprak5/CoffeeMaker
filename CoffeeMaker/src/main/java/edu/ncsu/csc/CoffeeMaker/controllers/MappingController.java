@@ -82,6 +82,36 @@ public class MappingController {
     }
 
     /**
+     * Handles a GET request for inventory. The GET request provides a view to
+     * the client that includes the list of the current ingredients in the
+     * inventory and a form where the client can enter more ingredients to add
+     * to the inventory.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/addInventory", "/addInventory.html" } )
+    public String addInventoryForm ( final Model model ) {
+        return "addInventory";
+    }
+
+    /**
+     * Handles a GET request for inventory. The GET request provides a view to
+     * the client that includes the list of the current ingredients in the
+     * inventory and a form where the client can enter more ingredients to add
+     * to the inventory.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/addInventoryIngredient", "/addInventoryIngredient.html" } )
+    public String addInventoryIngredientForm ( final Model model ) {
+        return "addInventoryIngredient";
+    }
+
+    /**
      * On a GET request to /makecoffee, the MakeCoffeeController will return
      * /src/main/resources/templates/makecoffee.html.
      *

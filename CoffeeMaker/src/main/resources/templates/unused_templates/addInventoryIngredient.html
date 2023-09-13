@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Add Inventory to Ingredient</title>
+<style>
+.username.ng-valid {
+	background-color: lightgreen;
+}
+
+.username.ng-dirty.ng-invalid-required {
+	background-color: red;
+}
+
+.username.ng-dirty.ng-invalid-min {
+	background-color: yellow;
+}
+
+.email.ng-valid {
+	background-color: lightgreen;
+}
+
+.email.ng-dirty.ng-invalid-required {
+	background-color: red;
+}
+</style>
+<link rel="stylesheet" href="css/bootstrap.css" />
+<link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+	<div ng-app="myApp" class="generic-container ng-cloak"
+		ng-controller="addInventoryIngredientCtrl as ctrl">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="lead">Add Inventory to Ingredient</span>
+			</div>
+
+			<div class="formcontainer">
+				<form ng-submit="submit()" name="addInventoryIngredientForm"
+					class="form-horizontal">
+
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label class="col-md-2 control-lable" for="file">Amount</label>
+							<div class="col-md-7">
+								<input type="text" ng-model="ingredient.amount" name="amount"
+									class="amount form-control input-sm"
+									placeholder="Enter amount of ingredient" required="0" />
+								<!--  <div class="has-error" ng-show="addIngredientForm.$dirty">
+									<span ng-show="addIngredientForm.amount.$error.required">This
+										is a required field</span> <span
+										ng-show="addIngredientForm.amount.$error.min">Minimum
+										amount is 0</span> <span ng-show="addIngredientForm.amount.$invalid">This
+										field is invalid </span>
+								</div>
+								-->
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-actions floatRight">
+							<input type="submit" value="Submit"
+								class="btn btn-primary btn-sm"
+								ng-disabled="addInventoryIngredientForm.$invalid" />
+							<button type="button" ng-click="reset()"
+								class="btn btn-warning btn-sm"
+								ng-disabled="addInventoryIngredientForm.$pristine">Reset Form</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- <div ng-show="success">Recipe Created</div>
+			<div ng-show="failure">Error while adding recipe.</div> -->
+		</div>
+		<a href="index.html">Home</a>
+	</div>
+</body>
+</html>

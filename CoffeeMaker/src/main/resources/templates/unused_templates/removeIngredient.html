@@ -1,21 +1,21 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Add an Ingredient To Recipe</title>
+<title>Remove an Ingredient From Recipe</title>
 </head>
 <body>
 
 
 	<div class="generic-container ng-cloak" ng-app="myApp"
-		ng-controller="addIngredientCtrl as ctrl">
+		ng-controller="removeIngredientCtrl as ctrl">
 		<div class="panel panel-default">
 			
 			<div class="panel-heading">
-				<span class="lead">Add Ingredient </span>
+				<span class="lead">Remove Ingredient </span>
 			</div>
 
 			<div class="formcontainer">
-				<form ng-submit="submit()" name="addIngredientForm"
+				<form ng-submit="submit()" name="removeIngredientForm"
 					class="form-horizontal">
 
 					<div class="row">
@@ -41,32 +41,12 @@
 						</div>
 					</div>
 
-					<div class="row">
-						<div class="form-group col-md-12">
-							<label class="col-md-2 control-lable" for="file">Amount</label>
-							<div class="col-md-7">
-								<input type="text" ng-model="ingredient.amount" name="amount"
-									class="amount form-control input-sm"
-									placeholder="Enter amount of ingredient" required="0" />
-								<!--  <div class="has-error" ng-show="addIngredientForm.$dirty">
-									<span ng-show="addIngredientForm.amount.$error.required">This
-										is a required field</span> <span
-										ng-show="addIngredientForm.amount.$error.min">Minimum
-										amount is 0</span> <span ng-show="addIngredientForm.amount.$invalid">This
-										field is invalid </span>
-								</div>
-								-->
-							</div>
-						</div>
-					</div>
+					
 					<div class="row">
 						<div class="form-actions floatRight">
-							<input type="submit" value="Add Ingredient"
+							<input type="submit" value="Remove Ingredient"
 								class="btn btn-primary btn-sm"
-								ng-disabled="addIngredientForm.$invalid" />
-							<button type="button" ng-click="reset()"
-								class="btn btn-warning btn-sm"
-								ng-disabled="addIngredientForm.$pristine">Reset Form</button>
+								ng-disabled="removeIngredientForm.$invalid" />
 						</div>
 					</div>
 
